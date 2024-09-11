@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image, ScrollView } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 
 export default function RegisterBar() {
@@ -40,7 +40,7 @@ export default function RegisterBar() {
   };
 
   return (
-    <View style={styles.container}>
+    <ScrollView contentContainerStyle={styles.contentContainer}>
       <Text style={styles.title}>Cadastre seu bar</Text>
       
       <TextInput
@@ -60,14 +60,14 @@ export default function RegisterBar() {
       />
       
       <TouchableOpacity style={styles.uploadButton} onPress={() => pickImage(setBarPhoto)}>
-  <View style={styles.uploadContent}>
-  <Image 
-  source={require('./assets/upload_icon.png')}
-  style={styles.uploadImage}
-  />
-    <Text style={styles.uploadText}>Foto do bar</Text>
-  </View>
-</TouchableOpacity>
+        <View style={styles.uploadContent}>
+          <Image 
+            source={require('./assets/upload_icon.png')}
+            style={styles.uploadImage}
+          />
+          <Text style={styles.uploadText}>Foto do bar</Text>
+        </View>
+      </TouchableOpacity>
 
       <TextInput
         style={styles.input}
@@ -110,19 +110,25 @@ export default function RegisterBar() {
         placeholderTextColor="#888"
       />
 
+      <TouchableOpacity onPress={() => { /* Navegação para tela de login */ }}>
+        <Text style={styles.loginText}>
+          Já tem uma conta? <Text style={styles.loginLink}>Faça o login aqui</Text>
+        </Text>
+      </TouchableOpacity>
+
       <TouchableOpacity style={styles.saveButton} onPress={handleSave}>
         <Text style={styles.saveText}>Salvar</Text>
       </TouchableOpacity>
-    </View>
+    </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
+  contentContainer: { 
+    flexGrow: 1,
     padding: 20,
     backgroundColor: '#F8F8F8',
-    justifyContent: 'center',
+    justifyContent: 'center', 
   },
   title: {
     fontSize: 24,
@@ -151,28 +157,39 @@ const styles = StyleSheet.create({
       backgroundColor: '#FFF',
     },
     uploadContent: {
-      flexDirection: 'row', // Alinha imagem e texto horizontalmente
-      alignItems: 'center', // Centraliza verticalmente
+      flexDirection: 'row', 
+      alignItems: 'center', 
     },
     uploadImage: {
-      width: 24,  // Largura da imagem
-      height: 24,  // Altura da imagem
-      marginRight: 8,  // Espaço entre imagem e texto
+      width: 24,  
+      height: 24,  
+      marginRight: 8,  
     },
     uploadText: {
       fontSize: 16,
-      color: '#888',  // Cor do texto
+      color: '#888',  
       textAlign: 'left',
     },
   saveButton: {
     backgroundColor: '#eddb8c',
-    padding: 15,    
+    padding: 10,    
     borderRadius: 8,
     alignItems: 'center',
+    marginTop: 40,
   },
   saveText: {
     fontSize: 18,
     color: '#FFF',
     fontWeight: 'bold',
   },
+  loginText: {
+    fontSize: 14,
+    color: '#000',
+    textAlign: 'center',
+    marginTop: 20,
+  },
+  loginLink: {
+    color: '#8c7b47',
+    fontWeight: 'bold',
+  }  
 });
