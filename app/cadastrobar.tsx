@@ -127,7 +127,7 @@ const styles = StyleSheet.create({
   contentContainer: { 
     flexGrow: 1,
     padding: 20,
-    backgroundColor: '#F8F8F8',
+    backgroundColor: '#FFF',
     justifyContent: 'center', 
   },
   title: {
@@ -138,7 +138,7 @@ const styles = StyleSheet.create({
     color: '#000',
   },
   input: {
-    backgroundColor: '#FFF',
+    backgroundColor: '#F8F8F8',
     borderWidth: 1,
     borderColor: '#E0E0E0',
     borderRadius: 8,
@@ -146,7 +146,15 @@ const styles = StyleSheet.create({
     marginBottom: 15,
     fontSize: 16,
     color: '#000',
-  },
+      // Sombra no iOS
+      shadowColor: '#000',
+      shadowOffset: { width: 0, height: 2 },
+      shadowOpacity: 0.1,
+      shadowRadius: 5,
+      
+      // Sombra no Android
+      elevation: 3, // Controle da intensidade da sombra
+    },
     uploadButton: {
       borderWidth: 1,
       borderColor: '#E0E0E0',
@@ -154,7 +162,15 @@ const styles = StyleSheet.create({
       padding: 12,
       marginBottom: 15,
       alignItems: 'flex-start',
-      backgroundColor: '#FFF',
+      backgroundColor: '#F8F8F8',
+            // Sombra no iOS
+            shadowColor: '#000',
+            shadowOffset: { width: 0, height: 2 },
+            shadowOpacity: 0.1,
+            shadowRadius: 5,
+            
+            // Sombra no Android
+            elevation: 3, // Controle da intensidade da sombra
     },
     uploadContent: {
       flexDirection: 'row', 
@@ -173,7 +189,7 @@ const styles = StyleSheet.create({
   saveButton: {
     backgroundColor: '#eddb8c',
     padding: 10,    
-    borderRadius: 8,
+    borderRadius: 15,
     alignItems: 'center',
     marginTop: 40,
   },
