@@ -1,38 +1,60 @@
-import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image, ScrollView } from 'react-native';
-import * as ImagePicker from 'expo-image-picker';
+import { Link } from "expo-router";
+import React, { useState } from "react";
+import {
+  Text,
+  TextInput,
+  TouchableOpacity,
+  StyleSheet,
+  ScrollView,
+  ActivityIndicator,
+} from "react-native";
 
-export default function RegisterBar() {
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+export default function CadastroUsuário() {
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [successMessage, setSuccessMessage] = useState<string | null>(null);
 
-  const pickImage = async (setter: (uri: string) => void) => {
-    let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.Images,
-      allowsEditing: true,
-      aspect: [4, 3],
-      quality: 1,
-    });
-  
-    if (!result.canceled) {
-      setter(result.assets[0].uri);
+  const handleSave = async () => {
+    setLoading(true);
+    setErrorMessage(null);
+    setSuccessMessage(null);
+
+    try {
+      const response = await fetch("http://192.168.15.7:3000/create-user", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email, name, password }),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        setErrorMessage(
+          errorData.error || "Erro ao tentar se conectar com o servidor.",
+        );
+      } else {
+        setSuccessMessage(
+          "Usuário cadastrado com sucesso! Volte para a tela de início para entrar no aplicativo!",
+        );
+      }
+    } catch (e) {
+      setErrorMessage("Erro ao tentar se conectar com o servidor.");
+    } finally {
+      setLoading(false);
     }
-  };
-
-  const handleSave = () => {
-    console.log({
-      name,
-      email,
-      password,
-    });
   };
 
   return (
     <ScrollView contentContainerStyle={styles.contentContainer}>
       <Text style={styles.title}>Crie sua conta</Text>
       <Text style={styles.titlesecond}>Seja bem-vindo</Text>
-      
+
+      {errorMessage && <Text style={styles.errorText}>{errorMessage}</Text>}
+
       <TextInput
         style={styles.input}
         placeholder="Nome"
@@ -40,7 +62,7 @@ export default function RegisterBar() {
         onChangeText={setName}
         placeholderTextColor="#888"
       />
-      
+
       <TextInput
         style={styles.input}
         placeholder="Email"
@@ -58,86 +80,105 @@ export default function RegisterBar() {
         placeholderTextColor="#888"
       />
 
-      <TouchableOpacity style={styles.saveButton} onPress={handleSave}>
-        <Text style={styles.saveText}>Salvar</Text>
-      </TouchableOpacity>
-      <TouchableOpacity onPress={() => { /* Navegação para tela de login */ }}>
-        <Text style={styles.loginText}>
-          Já tem uma conta? <Text style={styles.loginLink}>Faça o login aqui</Text>
-        </Text>
-      </TouchableOpacity>
-      <TouchableOpacity onPress={() => { /* Navegação para tela de inicio */ }}>
-      <Text style={styles.loginText}>
-          <Text style={styles.inicioLink}>Voltar para a tela de inicio</Text>
-          </Text>
-      </TouchableOpacity>
+      {successMessage && (
+        <Text style={styles.successText}>{successMessage}</Text>
+      )}
+
+      {loading ? (
+        <ActivityIndicator size="large" color="#eddb8c" />
+      ) : (
+        <TouchableOpacity style={styles.saveButton} onPress={handleSave}>
+          <Text style={styles.saveText}>Salvar</Text>
+        </TouchableOpacity>
+      )}
+
+      {/* MUDAR A ROTA AQUI PARA LOGIN */}
+      <Link href={"/"} style={styles.loginText}>
+        Já tem uma conta?{" "}
+        <Text style={styles.loginLink}>Faça o login aqui</Text>
+      </Link>
+
+      <Link href={"/"} style={styles.loginText}>
+        <Text style={styles.inicioLink}>Voltar para a tela de inicio</Text>
+      </Link>
     </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
-  contentContainer: { 
+  contentContainer: {
     flexGrow: 1,
     padding: 20,
-    backgroundColor: '#FFF',
-    justifyContent: 'center', 
+    backgroundColor: "#FFF",
+    justifyContent: "center",
   },
   title: {
     fontSize: 24,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     marginBottom: 20,
-    textAlign: 'center',
-    color: '#000',
+    textAlign: "center",
+    color: "#000",
   },
   titlesecond: {
     fontSize: 13,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     marginBottom: 20,
-    textAlign: 'center',    
-    color: '#000',
+    textAlign: "center",
+    color: "#000",
   },
   input: {
-    backgroundColor: '#F8F8F8',
+    backgroundColor: "#F8F8F8",
     borderWidth: 1,
-    borderColor: '#E0E0E0',
+    borderColor: "#E0E0E0",
     borderRadius: 8,
     padding: 12,
     marginBottom: 15,
     fontSize: 16,
-    color: '#000',
-      
-      shadowColor: '#000',
-      shadowOffset: { width: 0, height: 2 },
-      shadowOpacity: 0.1,
-      shadowRadius: 5,
-      
-    
-      elevation: 3, 
-    },
+    color: "#000",
+
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 5,
+
+    elevation: 3,
+  },
   saveButton: {
-    backgroundColor: '#eddb8c',
-    padding: 10,    
+    backgroundColor: "#eddb8c",
+    padding: 10,
     borderRadius: 15,
-    alignItems: 'center',
+    alignItems: "center",
     marginTop: 40,
   },
   saveText: {
     fontSize: 18,
-    color: '#FFF',
-    fontWeight: 'bold',
+    color: "#FFF",
+    fontWeight: "bold",
   },
   loginText: {
     fontSize: 14,
-    color: '#000',
-    textAlign: 'center',
+    color: "#000",
+    textAlign: "center",
     marginTop: 20,
   },
   loginLink: {
-    color: '#8c7b47',
-    fontWeight: 'bold',
-  },  
+    color: "#8c7b47",
+    fontWeight: "bold",
+  },
   inicioLink: {
-    color: '#8c7b47',
-    fontWeight: 'bold',
-  } 
+    color: "#8c7b47",
+    fontWeight: "bold",
+  },
+  errorText: {
+    color: "red",
+    fontSize: 18,
+    marginBottom: 10,
+    textAlign: "center",
+  },
+  successText: {
+    color: "green",
+    fontSize: 15,
+    marginBottom: -10,
+    textAlign: "center",
+  },
 });

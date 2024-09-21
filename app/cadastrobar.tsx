@@ -1,239 +1,303 @@
-import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image, ScrollView } from 'react-native';
-import * as ImagePicker from 'expo-image-picker';
-console.log('fbafoiehodsk')
-export default function RegisterBar() {
-  console.log('funçao de cadastro')
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [barPhoto, setBarPhoto] = useState<string | null>(null);
-  const [cnpj, setCnpj] = useState('');
-  const [address, setAddress] = useState('');
-  const [about, setAbout] = useState('');
-  const [password, setPassword] = useState('');
-  const [menuLink, setMenuLink] = useState(''); 
+import React, { useState } from "react";
+import {
+  View,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  StyleSheet,
+  Image,
+  ScrollView,
+  ActivityIndicator,
+  KeyboardAvoidingView,
+  Platform,
+} from "react-native";
+import * as ImagePicker from "expo-image-picker";
+import { Link } from "expo-router";
 
-  const pickImage = async (setter: (uri: string) => void) => {
+export default function CadastroBar() {
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [barPhoto, setBarPhoto] = useState<string | null>(null);
+  const [cnpj, setCnpj] = useState("");
+  const [address, setAddress] = useState("");
+  const [about, setAbout] = useState("");
+  const [password, setPassword] = useState("");
+  const [menuLink, setMenuLink] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [successMessage, setSuccessMessage] = useState<string | null>(null);
+
+  const pickImage = async (setUri: (uri: string) => void) => {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
       aspect: [4, 3],
       quality: 1,
     });
-  
+
     if (!result.canceled) {
-      setter(result.assets[0].uri);
+      const { uri } = result.assets[0];
+      setUri(uri);
     }
   };
 
-  const handleSave = async  () => {
-    console.log("logica de salvamento")
+  const handleSave = async () => {
+    setLoading(true);
+    setErrorMessage(null);
+    setSuccessMessage(null);
+
     try {
-      const response = await fetch('http://193.186.4.203:3000/create-bar', {
-        method: 'POST',
+      const response = await fetch("http://192.168.15.7:3000/create-bar", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
-        body: JSON.stringify({ email, barPhoto, cnpj, address, about, password, menuLink }),
+        body: JSON.stringify({
+          email,
+          barPhoto,
+          cnpj,
+          address,
+          about,
+          password,
+          menuLink,
+          name,
+        }),
       });
 
       if (!response.ok) {
-        throw new Error('Credenciais inválidas');
+        const errorData = await response.json();
+        setErrorMessage(errorData.error);
+      } else {
+        setSuccessMessage(
+          "Bar cadastrado com sucesso! Volte para a tela de início para entrar no aplicativo!",
+        );
       }
-
-    console.log("kakakaka")
-    } catch (error) {
-      console.log('Erro');
-    }
-
-    console.log({
-      name,
-      email,
-      barPhoto,
-      cnpj,
-      address,
-      about,
-      password,
-      menuLink,
-    });
+    } catch (e) {
+      setErrorMessage("Erro ao tentar se conectar com o servidor.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
-    <ScrollView contentContainerStyle={styles.contentContainer}>
-      <Text style={styles.title}>Cadastre seu bar</Text>
-      
-      <TextInput
-        style={styles.input}
-        placeholder="Nome"
-        value={name}
-        onChangeText={setName}
-        placeholderTextColor="#888"
-      />
-      
-      <TextInput
-        style={styles.input}
-        placeholder="Email"
-        value={email}
-        onChangeText={setEmail}
-        placeholderTextColor="#888"
-      />
-      
-      <TouchableOpacity style={styles.uploadButton} onPress={() => pickImage(setBarPhoto)}>
-        <View style={styles.uploadContent}>
-          <Image 
-            source={require('./assets/upload_icon.png')}
-            style={styles.uploadImage}
-          />
-          <Text style={styles.uploadText}>Foto do bar</Text>
-        </View>
-      </TouchableOpacity>
+    <KeyboardAvoidingView
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+      style={styles.container}
+    >
+      <ScrollView contentContainerStyle={styles.contentContainer}>
+        <Text style={styles.title}>Cadastre seu bar</Text>
 
-      <TextInput
-        style={styles.input}
-        placeholder="CNPJ"
-        value={cnpj}
-        onChangeText={setCnpj}
-        placeholderTextColor="#888"
-      />
-      
-      <TextInput
-        style={styles.input}
-        placeholder="Endereço"
-        value={address}
-        onChangeText={setAddress}
-        placeholderTextColor="#888"
-      />
-      
-      <TextInput
-        style={styles.input}
-        placeholder="Sobre o bar"
-        value={about}
-        onChangeText={setAbout}
-        placeholderTextColor="#888"
-      />
-      
-      <TextInput
-        style={styles.input}
-        placeholder="Senha"
-        secureTextEntry={true}
-        value={password}
-        onChangeText={setPassword}
-        placeholderTextColor="#888"
-      />
-      
-      <TextInput
-        style={styles.input}
-        placeholder="Link do cardápio"
-        value={menuLink}
-        onChangeText={setMenuLink}
-        placeholderTextColor="#888"
-      />
+        {errorMessage && <Text style={styles.errorText}>{errorMessage}</Text>}
 
-      <TouchableOpacity style={styles.saveButton} onPress={() => { handleSave }}>
-        <Text style={styles.saveText}>Salvar</Text>
-      </TouchableOpacity>
-      <TouchableOpacity onPress={() => { /* Navegação para tela de login */ }}>
-        <Text style={styles.loginText}>
-          Já tem uma conta? <Text style={styles.loginLink}>Faça o login aqui</Text>
-        </Text>
-      </TouchableOpacity>
+        <TextInput
+          style={styles.input}
+          placeholder="Nome"
+          value={name}
+          onChangeText={setName}
+          placeholderTextColor="#888"
+        />
 
-      <TouchableOpacity onPress={() => { /* Navegação para tela de inicio */ }}>
-      <Text style={styles.loginText}>
+        <TextInput
+          style={styles.input}
+          placeholder="Email"
+          value={email}
+          onChangeText={setEmail}
+          placeholderTextColor="#888"
+        />
+
+        <TouchableOpacity
+          style={styles.uploadImageButton}
+          onPress={() => pickImage(setBarPhoto)}
+        >
+          <View style={styles.uploadImageContent}>
+            {barPhoto ? (
+              <Image source={{ uri: barPhoto }} style={styles.uploadedImage} />
+            ) : (
+              <>
+                <Image
+                  source={require("./assets/upload_icon.png")}
+                  style={styles.uploadImage}
+                />
+                <Text style={styles.uploadText}>{"Foto do bar"}</Text>
+              </>
+            )}
+          </View>
+        </TouchableOpacity>
+
+        <TextInput
+          style={styles.input}
+          placeholder="CNPJ (somente números)"
+          value={cnpj}
+          onChangeText={setCnpj}
+          placeholderTextColor="#888"
+        />
+
+        <TextInput
+          style={styles.input}
+          placeholder="Endereço"
+          value={address}
+          onChangeText={setAddress}
+          placeholderTextColor="#888"
+        />
+
+        <TextInput
+          style={styles.input}
+          placeholder="Sobre"
+          value={about}
+          onChangeText={setAbout}
+          placeholderTextColor="#888"
+        />
+
+        <TextInput
+          style={styles.input}
+          placeholder="Senha"
+          secureTextEntry={true}
+          value={password}
+          onChangeText={setPassword}
+          placeholderTextColor="#888"
+        />
+
+        <TextInput
+          style={styles.input}
+          placeholder="Link do cardápio"
+          value={menuLink}
+          onChangeText={setMenuLink}
+          placeholderTextColor="#888"
+        />
+
+        {successMessage && (
+          <Text style={styles.successText}>{successMessage}</Text>
+        )}
+
+        {loading ? (
+          <ActivityIndicator size="large" color="#eddb8c" />
+        ) : (
+          <TouchableOpacity style={styles.saveButton} onPress={handleSave}>
+            <Text style={styles.saveText}>Salvar</Text>
+          </TouchableOpacity>
+        )}
+
+        {/* MUDAR A ROTA AQUI PARA LOGIN */}
+        <Link href={"/"} style={styles.loginText}>
+          Já tem uma conta?{" "}
+          <Text style={styles.loginLink}>Faça o login aqui</Text>
+        </Link>
+
+        <Link href={"/"} style={styles.loginText}>
           <Text style={styles.inicioLink}>Voltar para a tela de inicio</Text>
-          </Text>
-      </TouchableOpacity>
-    </ScrollView>
+        </Link>
+      </ScrollView>
+    </KeyboardAvoidingView>
   );
 }
 
 const styles = StyleSheet.create({
-  contentContainer: { 
+  contentContainer: {
     flexGrow: 1,
     padding: 20,
-    backgroundColor: '#FFF',
-    justifyContent: 'center', 
+    backgroundColor: "#FFF",
+    justifyContent: "center",
   },
   title: {
     fontSize: 24,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     marginBottom: 20,
-    textAlign: 'center',
-    color: '#000',
+    textAlign: "center",
+    color: "#000",
   },
   input: {
-    backgroundColor: '#F8F8F8',
+    backgroundColor: "#F8F8F8",
     borderWidth: 1,
-    borderColor: '#E0E0E0',
+    borderColor: "#E0E0E0",
     borderRadius: 8,
     padding: 12,
     marginBottom: 15,
     fontSize: 16,
-    color: '#000',
-      // Sombra no iOS
-      shadowColor: '#000',
-      shadowOffset: { width: 0, height: 2 },
-      shadowOpacity: 0.1,
-      shadowRadius: 5,
-      
-      // Sombra no Android
-      elevation: 3, // Controle da intensidade da sombra
-    },
-    uploadButton: {
-      borderWidth: 1,
-      borderColor: '#E0E0E0',
-      borderRadius: 8,
-      padding: 12,
-      marginBottom: 15,
-      alignItems: 'flex-start',
-      backgroundColor: '#F8F8F8',
-            // Sombra no iOS
-            shadowColor: '#000',
-            shadowOffset: { width: 0, height: 2 },
-            shadowOpacity: 0.1,
-            shadowRadius: 5,
-            
-            // Sombra no Android
-            elevation: 3, // Controle da intensidade da sombra
-    },
-    uploadContent: {
-      flexDirection: 'row', 
-      alignItems: 'center', 
-    },
-    uploadImage: {
-      width: 24,  
-      height: 24,  
-      marginRight: 8,  
-    },
-    uploadText: {
-      fontSize: 16,
-      color: '#888',  
-      textAlign: 'left',
-    },
+    color: "#000",
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 5,
+    elevation: 3,
+  },
+  uploadImageButton: {
+    borderWidth: 1,
+    borderColor: "#E0E0E0",
+    borderRadius: 8,
+    padding: 12,
+    marginBottom: 15,
+    alignItems: "flex-start",
+    backgroundColor: "#F8F8F8",
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 5,
+    elevation: 3,
+  },
+  uploadImageContent: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  uploadImage: {
+    width: 24,
+    height: 24,
+    marginRight: 8,
+  },
+  uploadText: {
+    fontSize: 16,
+    color: "#888",
+    textAlign: "left",
+  },
   saveButton: {
-    backgroundColor: '#eddb8c',
-    padding: 10,    
+    backgroundColor: "#eddb8c",
+    padding: 10,
     borderRadius: 15,
-    alignItems: 'center',
+    alignItems: "center",
     marginTop: 40,
+    marginBottom: 17,
   },
   saveText: {
     fontSize: 18,
-    color: '#FFF',
-    fontWeight: 'bold',
+    color: "#FFF",
+    fontWeight: "bold",
   },
   loginText: {
     fontSize: 14,
-    color: '#000',
-    textAlign: 'center',
+    color: "#000",
+    textAlign: "center",
     marginTop: 20,
   },
   loginLink: {
-    color: '#8c7b47',
-    fontWeight: 'bold',
+    color: "#8c7b47",
+    fontWeight: "bold",
   },
   inicioLink: {
-    color: '#8c7b47',
-    fontWeight: 'bold',
-  }   
+    color: "#8c7b47",
+    fontWeight: "bold",
+  },
+  container: {
+    flex: 1,
+  },
+  scrollContainer: {
+    flexGrow: 1,
+    justifyContent: "center",
+    padding: 16,
+  },
+  errorText: {
+    color: "red",
+    fontSize: 18,
+    marginBottom: 10,
+    textAlign: "center",
+  },
+  uploadedImage: {
+    width: 100,
+    height: 100,
+    borderRadius: 8,
+  },
+  successText: {
+    color: "green",
+    fontSize: 15,
+    marginBottom: -10,
+    textAlign: "center",
+  },
 });
