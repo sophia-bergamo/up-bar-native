@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image, ScrollView } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
-
+console.log('fbafoiehodsk')
 export default function RegisterBar() {
+  console.log('funçao de cadastro')
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [barPhoto, setBarPhoto] = useState<string | null>(null);
@@ -25,8 +26,26 @@ export default function RegisterBar() {
     }
   };
 
-  const handleSave = () => {
-    // Lógica de salvamento aqui
+  const handleSave = async  () => {
+    console.log("logica de salvamento")
+    try {
+      const response = await fetch('http://193.186.4.203:3000/create-bar', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email, barPhoto, cnpj, address, about, password, menuLink }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Credenciais inválidas');
+      }
+
+    console.log("kakakaka")
+    } catch (error) {
+      console.log('Erro');
+    }
+
     console.log({
       name,
       email,
@@ -110,7 +129,7 @@ export default function RegisterBar() {
         placeholderTextColor="#888"
       />
 
-      <TouchableOpacity style={styles.saveButton} onPress={handleSave}>
+      <TouchableOpacity style={styles.saveButton} onPress={() => { handleSave }}>
         <Text style={styles.saveText}>Salvar</Text>
       </TouchableOpacity>
       <TouchableOpacity onPress={() => { /* Navegação para tela de login */ }}>
