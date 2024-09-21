@@ -57,16 +57,19 @@ export default function RegisterBar() {
         onChangeText={setPassword}
         placeholderTextColor="#888"
       />
-      
 
+      <TouchableOpacity style={styles.saveButton} onPress={handleSave}>
+        <Text style={styles.saveText}>Salvar</Text>
+      </TouchableOpacity>
       <TouchableOpacity onPress={() => { /* Navegação para tela de login */ }}>
         <Text style={styles.loginText}>
           Já tem uma conta? <Text style={styles.loginLink}>Faça o login aqui</Text>
         </Text>
       </TouchableOpacity>
-
-      <TouchableOpacity style={styles.saveButton} onPress={handleSave}>
-        <Text style={styles.saveText}>Salvar</Text>
+      <TouchableOpacity onPress={() => { /* Navegação para tela de inicio */ }}>
+      <Text style={styles.loginText}>
+          <Text style={styles.inicioLink}>Voltar para a tela de inicio</Text>
+          </Text>
       </TouchableOpacity>
     </ScrollView>
   );
@@ -102,14 +105,14 @@ const styles = StyleSheet.create({
     marginBottom: 15,
     fontSize: 16,
     color: '#000',
-      // Sombra no iOS
+      
       shadowColor: '#000',
       shadowOffset: { width: 0, height: 2 },
       shadowOpacity: 0.1,
       shadowRadius: 5,
       
-      // Sombra no Android
-      elevation: 3, // Controle da intensidade da sombra
+    
+      elevation: 3, 
     },
   saveButton: {
     backgroundColor: '#eddb8c',
@@ -132,5 +135,9 @@ const styles = StyleSheet.create({
   loginLink: {
     color: '#8c7b47',
     fontWeight: 'bold',
-  }  
+  },  
+  inicioLink: {
+    color: '#8c7b47',
+    fontWeight: 'bold',
+  } 
 });
