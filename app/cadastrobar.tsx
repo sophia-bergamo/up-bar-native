@@ -26,6 +26,7 @@ export default function CadastroBar() {
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
+  const [fileName, setImageName] = useState<string | null>(null);
 
   const pickImage = async (setUri: (uri: string) => void) => {
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -37,7 +38,8 @@ export default function CadastroBar() {
 
     if (!result.canceled) {
       const { uri } = result.assets[0];
-      setUri(uri);
+      setBarPhoto(uri);
+      setImageName(fileName || `photo-${Date.now()}.jpg`);
     }
   };
 
@@ -45,6 +47,13 @@ export default function CadastroBar() {
     setLoading(true);
     setErrorMessage(null);
     setSuccessMessage(null);
+
+    const formData = new FormData();
+    formData.append("barPhoto", {
+      uri: barPhoto,
+      name: `photo-${Date.now()}.jpg`,
+      type: "image/jpeg",
+    } as any);
 
     try {
       const response = await fetch("http://192.168.15.7:3000/create-bar", {
@@ -54,7 +63,11 @@ export default function CadastroBar() {
         },
         body: JSON.stringify({
           email,
-          barPhoto,
+          barPhoto: {
+            uri: barPhoto,
+            name: `photo-${Date.now()}.jpg`,
+            type: "image/jpeg",
+          },
           cnpj,
           address,
           about,
