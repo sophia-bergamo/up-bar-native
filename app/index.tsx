@@ -6,8 +6,10 @@ const PaginaInicial = () => {
     <View style={styles.container}>
       <Text style={styles.title}>Bem-vindo ao App!</Text>
 
-      <Link href="/entrar" style={styles.button}>Entrar</Link>
-        <View style={styles.buttonContainer}>
+      <Link href="/" style={styles.button}>
+        Entrar
+      </Link>
+      <View style={styles.buttonContainer}>
         <Link href="/cadastrousuario" style={styles.button}>
           <Text style={styles.buttonText}>Cadastre-se</Text>
         </Link>
@@ -25,10 +27,10 @@ const PaginaInicial = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: '#f5f5f5',
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "#f5f5f5",
     padding: 20,
   },
   title: {
@@ -39,27 +41,24 @@ const styles = StyleSheet.create({
     color: "#000",
   },
   buttonContainer: {
-    flexDirection: 'column',
-    gap: 10
-  ,
+    flexDirection: "column",
+    gap: 10,
   },
   button: {
-    color: '#fff',
-    textAlign: 'center',
-    backgroundColor: '#8c7b47',
+    color: "#fff",
+    textAlign: "center",
+    backgroundColor: "#8c7b47",
     fontSize: 14,
     fontWeight: "bold",
     marginBottom: 20,
     borderRadius: 5,
     width: 200,
-    padding: 10
-  
-
+    padding: 10,
   },
   buttonText: {
-    color: '#fff',
-    textAlign: 'center',
-    backgroundColor: '#8c7b47',
+    color: "#fff",
+    textAlign: "center",
+    backgroundColor: "#8c7b47",
     fontSize: 14,
     fontWeight: "bold",
     marginBottom: 20,

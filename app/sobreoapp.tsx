@@ -7,7 +7,6 @@ export function Home() {
       <Text>Bem-vindo ao App!</Text>
       <Link href="/cadastrobar">Ir para o Cadastro do Bar</Link>
       <Link href="/cadastrousuario">Ir para o Cadastro do Usuário</Link>
-      <Link href="/sobreoapp">Ir para Sobre o Aplicativo</Link>
     </View>
   );
 }
@@ -49,9 +48,9 @@ const styles = StyleSheet.create({
     marginVertical: 10,
   },
   buttonText: {
-    color: '#fff',
-    textAlign: 'center',
-    backgroundColor: '#8c7b47',
+    color: "#fff",
+    textAlign: "center",
+    backgroundColor: "#8c7b47",
     fontSize: 14,
     fontWeight: "bold",
     marginBottom: 20,
