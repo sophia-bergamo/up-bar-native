@@ -19,6 +19,12 @@ const PaginaInicial = () => {
         <Link href="/sobreoapp">
           <Text style={styles.buttonText}>Ir para Sobre o Aplicativo</Text>
         </Link>
+        <Link href="/home">
+          <Text style={styles.buttonText}>Ir para Home</Text>
+        </Link>
+        <Link href="/ajuda">
+          <Text style={styles.buttonText}>Ir para tela ajuda</Text>
+        </Link>
       </View>
     </View>
   );
