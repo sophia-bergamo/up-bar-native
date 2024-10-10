@@ -50,22 +50,14 @@ export default function CadastroUsuário() {
 
   return (
     <ScrollView contentContainerStyle={styles.contentContainer}>
-      <Text style={styles.title}>Crie sua conta</Text>
-      <Text style={styles.titlesecond}>Seja bem-vindo</Text>
+      <Text style={styles.title}>Olá!</Text>
+      <Text style={styles.titlesecond}>Bem-vindo de volta!</Text>
 
       {errorMessage && <Text style={styles.errorText}>{errorMessage}</Text>}
 
       <TextInput
         style={styles.input}
-        placeholder="Nome"
-        value={name}
-        onChangeText={setName}
-        placeholderTextColor="#888"
-      />
-
-      <TextInput
-        style={styles.input}
-        placeholder="Email"
+        placeholder="Digite seu e-mail"
         value={email}
         onChangeText={setEmail}
         placeholderTextColor="#888"
@@ -73,8 +65,7 @@ export default function CadastroUsuário() {
 
       <TextInput
         style={styles.input}
-        placeholder="Senha"
-        secureTextEntry={true}
+        placeholder="Digite sua senha"
         value={password}
         onChangeText={setPassword}
         placeholderTextColor="#888"
@@ -93,9 +84,9 @@ export default function CadastroUsuário() {
       )}
 
       {/* MUDAR A ROTA AQUI PARA LOGIN */}
-      <Link href={"/login"} style={styles.loginText}>
-        Já tem uma conta?{" "}
-        <Text style={styles.loginLink}>Faça o login aqui</Text>
+      <Link href={"/cadastrousuario"} style={styles.loginText}>
+        Não tem cadastro?{" "}
+        <Text style={styles.loginLink}>Cadastre-se aqui</Text>
       </Link>
 
       <Link href={"/"} style={styles.loginText}>
@@ -129,6 +120,7 @@ const styles = StyleSheet.create({
   input: {
     backgroundColor: "#F8F8F8",
     borderWidth: 1,
+    borderColor: "#E0E0E0",
     borderRadius: 8,
     padding: 12,
     marginBottom: 15,

@@ -5,6 +5,7 @@ import { FontAwesome } from '@expo/vector-icons';
 function HomeScreen() {
   const [menuVisible, setMenuVisible] = useState(false);
 
+
   return (
     <View style={styles.container}>
       {/* Top Bar */}

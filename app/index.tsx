@@ -6,7 +6,7 @@ const PaginaInicial = () => {
     <View style={styles.container}>
       <Text style={styles.title}>Bem-vindo ao App!</Text>
 
-      <Link href="/" style={styles.button}>
+      <Link href="/login" style={styles.button}>
         Entrar
       </Link>
       <View style={styles.buttonContainer}>
@@ -24,6 +24,9 @@ const PaginaInicial = () => {
         </Link>
         <Link href="/ajuda">
           <Text style={styles.buttonText}>Ir para tela ajuda</Text>
+        </Link>
+        <Link href="/esqueciasenha">
+          <Text style={styles.buttonText}>Ir para tela esqueci a senha</Text>
         </Link>
       </View>
     </View>
