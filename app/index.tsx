@@ -25,6 +25,9 @@ const PaginaInicial = () => {
         <Link href="/ajuda">
           <Text style={styles.buttonText}>Ir para tela ajuda</Text>
         </Link>
+        <Link href="/dadospessoais">
+          <Text style={styles.buttonText}>Ir para tela Dados Pessoais</Text>
+        </Link>
         <Link href="/esqueciasenha">
           <Text style={styles.buttonText}>Ir para tela esqueci a senha</Text>
         </Link>

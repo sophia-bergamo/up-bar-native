@@ -1,10 +1,13 @@
-import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Modal, ScrollView } from 'react-native';
-import { FontAwesome } from '@expo/vector-icons';
+import React, { useState } from "react";
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Modal } from "react-native";
+import { FontAwesome } from "@expo/vector-icons";
 
-function HomeScreen() {
+export default function HelpScreen() {
   const [menuVisible, setMenuVisible] = useState(false);
-
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
+  const [problemDescription, setProblemDescription] = useState("");
 
   return (
     <View style={styles.container}>
@@ -13,15 +16,45 @@ function HomeScreen() {
         <TouchableOpacity style={styles.menuIcon} onPress={() => setMenuVisible(true)}>
           <FontAwesome name="bars" size={24} color="black" />
         </TouchableOpacity>
-        <Text style={styles.title}>HOME</Text>
+        <Text style={styles.title}>PRECISA DE AJUDA?</Text>
         <TouchableOpacity style={styles.locationIcon}>
           <FontAwesome name="map-marker" size={24} color="black" />
         </TouchableOpacity>
       </View>
-      <ScrollView contentContainerStyle={styles.content}>
-        <Text style={styles.helpTitle}>PRECISA DE AJUDA?</Text>
-        <Text style={styles.helpSubtitle}>Estamos à sua disposição!</Text>
-      </ScrollView>
+
+      {/* Main Content */}
+      <View style={styles.content}>
+        <Text style={styles.subtitle}>Estamos à sua disposição!</Text>
+        <TextInput
+          style={styles.input}
+          placeholder="Nome"
+          value={name}
+          onChangeText={setName}
+          placeholderTextColor="#888"
+        />
+        <TextInput
+          style={styles.input}
+          placeholder="E-mail"
+          value={email}
+          onChangeText={setEmail}
+          placeholderTextColor="#888"
+        />
+        <TextInput
+          style={styles.input}
+          placeholder="Telefone"
+          value={phone}
+          onChangeText={setPhone}
+          placeholderTextColor="#888"
+        />
+        <TextInput
+          style={[styles.input, styles.problemInput]}
+          placeholder="Descrição do problema"
+          value={problemDescription}
+          onChangeText={setProblemDescription}
+          placeholderTextColor="#888"
+          multiline
+        />
+      </View>
 
       {/* Bottom Navigation */}
       <View style={styles.bottomBar}>
@@ -43,10 +76,7 @@ function HomeScreen() {
         animationType="fade"
         onRequestClose={() => setMenuVisible(false)}
       >
-        <TouchableOpacity
-          style={styles.overlay}
-          onPress={() => setMenuVisible(false)}
-        >
+        <TouchableOpacity style={styles.overlay} onPress={() => setMenuVisible(false)}>
           <View style={styles.menu}>
             <TouchableOpacity style={styles.menuItem}>
               <Text style={styles.menuText}>Dados pessoais</Text>
@@ -65,60 +95,16 @@ function HomeScreen() {
   );
 }
 
-function Ajuda() {
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [phone, setPhone] = useState('');
-  const [description, setDescription] = useState('');
-
-  return (
-    <View style={styles.container}>
-      <ScrollView contentContainerStyle={styles.content}>
-        <Text style={styles.helpTitle}>PRECISA DE AJUDA?</Text>
-        <Text style={styles.helpSubtitle}>Estamos à sua disposição!</Text>
-
-        <TextInput
-          style={styles.input}
-          placeholder="Nome"
-          value={name}
-          onChangeText={(text) => setName(text)}
-        />
-        <TextInput
-          style={styles.input}
-          placeholder="E-mail"
-          value={email}
-          onChangeText={(text) => setEmail(text)}
-          keyboardType="email-address"
-        />
-        <TextInput
-          style={styles.input}
-          placeholder="Telefone"
-          value={phone}
-          onChangeText={(text) => setPhone(text)}
-          keyboardType="phone-pad"
-        />
-        <TextInput
-          style={styles.textArea}
-          placeholder="Descrição do problema"
-          value={description}
-          onChangeText={(text) => setDescription(text)}
-          multiline
-        />
-      </ScrollView>
-    </View>
-  );
-}
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#F2E0A7',
+    backgroundColor: "#F2E0A7",
   },
   topBar: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    backgroundColor: '#E8D18F',
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    backgroundColor: "#E8D18F",
     paddingVertical: 10,
     paddingHorizontal: 20,
   },
@@ -130,18 +116,45 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 18,
-    fontWeight: 'bold',
-    color: 'black',
+    fontWeight: "bold",
+    color: "black",
   },
   content: {
     flex: 1,
-    backgroundColor: '#FFF',
+    backgroundColor: "#FFF",
+    padding: 20,
+    justifyContent: "center",
+  },
+  subtitle: {
+    fontSize: 16,
+    textAlign: "center",
+    marginBottom: 20,
+    color: "#000",
+  },
+  input: {
+    backgroundColor: "#F8F8F8",
+    borderWidth: 1,
+    borderColor: "#E0E0E0",
+    borderRadius: 8,
+    padding: 12,
+    marginBottom: 15,
+    fontSize: 16,
+    color: "#000",
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 5,
+    elevation: 3,
+  },
+  problemInput: {
+    height: 100,
+    textAlignVertical: "top",
   },
   bottomBar: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    alignItems: 'center',
-    backgroundColor: '#E8D18F',
+    flexDirection: "row",
+    justifyContent: "space-around",
+    alignItems: "center",
+    backgroundColor: "#E8D18F",
     paddingVertical: 10,
   },
   navButton: {
@@ -149,12 +162,12 @@ const styles = StyleSheet.create({
   },
   overlay: {
     flex: 1,
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
-    justifyContent: 'flex-start',
-    alignItems: 'flex-start',
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+    justifyContent: "flex-start",
+    alignItems: "flex-start",
   },
   menu: {
-    backgroundColor: '#E8D18F',
+    backgroundColor: "#E8D18F",
     borderRadius: 8,
     marginTop: 50,
     marginLeft: 20,
@@ -162,57 +175,19 @@ const styles = StyleSheet.create({
     width: 200,
   },
   menuItem: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
     padding: 15,
     borderBottomWidth: 1,
-    borderBottomColor: '#C8B07D',
+    borderBottomColor: "#C8B07D",
   },
   menuText: {
     fontSize: 16,
-    fontWeight: 'bold',
-    color: 'black',
+    fontWeight: "bold",
+    color: "black",
   },
   menuIconRight: {
     marginLeft: 10,
   },
-  helpTitle: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    marginBottom: 10,
-    textAlign: 'center',
-  },
-  helpSubtitle: {
-    fontSize: 16,
-    marginBottom: 20,
-    textAlign: 'center',
-  },
-  input: {
-    width: '100%',
-    padding: 15,
-    marginBottom: 15,
-    backgroundColor: '#FFF',
-    borderRadius: 8,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.2,
-    shadowRadius: 4,
-    elevation: 2,
-  },
-  textArea: {
-    width: '100%',
-    padding: 15,
-    height: 100,
-    backgroundColor: '#FFF',
-    borderRadius: 8,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.2,
-    shadowRadius: 4,
-    elevation: 2,
-  },
 });
-
-export { HomeScreen, Ajuda };
-
