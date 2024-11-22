@@ -22,30 +22,30 @@ export default function CadastroUsuário() {
     setErrorMessage(null);
     setSuccessMessage(null);
 
-    try {
-      const response = await fetch("http://192.168.15.7:3000/create-user", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email, name, password }),
-      });
+    // try {
+    //   const response = await fetch("http://192.168.15.7:3000/create-user", {
+    //     method: "POST",
+    //     headers: {
+    //       "Content-Type": "application/json",
+    //     },
+    //     body: JSON.stringify({ email, name, password }),
+    //   });
 
-      if (!response.ok) {
-        const errorData = await response.json();
-        setErrorMessage(
-          errorData.error || "Erro ao tentar se conectar com o servidor.",
-        );
-      } else {
-        setSuccessMessage(
-          "Usuário cadastrado com sucesso! Volte para a tela de início para entrar no aplicativo!",
-        );
-      }
-    } catch (e) {
-      setErrorMessage("Erro ao tentar se conectar com o servidor.");
-    } finally {
-      setLoading(false);
-    }
+    //   if (!response.ok) {
+    //     const errorData = await response.json();
+    //     setErrorMessage(
+    //       errorData.error || "Erro ao tentar se conectar com o servidor.",
+    //     );
+    //   } else {
+    //     setSuccessMessage(
+    //       "Usuário cadastrado com sucesso! Volte para a tela de início para entrar no aplicativo!",
+    //     );
+    //   }
+    // } catch (e) {
+    //   setErrorMessage("Erro ao tentar se conectar com o servidor.");
+    // } finally {
+    //   setLoading(false);
+    // }
   };
 
   return (

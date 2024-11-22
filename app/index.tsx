@@ -1,5 +1,5 @@
 import { Link } from "expo-router";
-import { Text, View, StyleSheet, TouchableOpacity } from "react-native";
+import { Text, View, StyleSheet } from "react-native";
 
 const PaginaInicial = () => {
   return (
@@ -15,18 +15,6 @@ const PaginaInicial = () => {
         </Link>
         <Link href="/cadastrobar" style={styles.button}>
           <Text style={styles.buttonText}>Cadastre seu Bar</Text>
-        </Link>
-        <Link href="/sobreoapp">
-          <Text style={styles.buttonText}>Ir para Sobre o Aplicativo</Text>
-        </Link>
-        <Link href="/home">
-          <Text style={styles.buttonText}>Ir para Home</Text>
-        </Link>
-        <Link href="/ajuda">
-          <Text style={styles.buttonText}>Ir para tela ajuda</Text>
-        </Link>
-        <Link href="/esqueciasenha">
-          <Text style={styles.buttonText}>Ir para tela esqueci a senha</Text>
         </Link>
       </View>
     </View>

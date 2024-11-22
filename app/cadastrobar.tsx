@@ -30,7 +30,7 @@ export default function CadastroBar() {
 
   const pickImage = async (setUri: (uri: string) => void) => {
     let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      mediaTypes: ["images"],
       allowsEditing: true,
       aspect: [4, 3],
       quality: 1,
@@ -55,41 +55,41 @@ export default function CadastroBar() {
       type: "image/jpeg",
     } as any);
 
-    try {
-      const response = await fetch("http://192.168.15.7:3000/create-bar", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          email,
-          barPhoto: {
-            uri: barPhoto,
-            name: `photo-${Date.now()}.jpg`,
-            type: "image/jpeg",
-          },
-          cnpj,
-          address,
-          about,
-          password,
-          menuLink,
-          name,
-        }),
-      });
+    // try {
+    //   const response = await fetch("http://192.168.15.7:3000/create-bar", {
+    //     method: "POST",
+    //     headers: {
+    //       "Content-Type": "application/json",
+    //     },
+    //     body: JSON.stringify({
+    //       email,
+    //       barPhoto: {
+    //         uri: barPhoto,
+    //         name: `photo-${Date.now()}.jpg`,
+    //         type: "image/jpeg",
+    //       },
+    //       cnpj,
+    //       address,
+    //       about,
+    //       password,
+    //       menuLink,
+    //       name,
+    //     }),
+    //   });
 
-      if (!response.ok) {
-        const errorData = await response.json();
-        setErrorMessage(errorData.error);
-      } else {
-        setSuccessMessage(
-          "Bar cadastrado com sucesso! Volte para a tela de início para entrar no aplicativo!",
-        );
-      }
-    } catch (e) {
-      setErrorMessage("Erro ao tentar se conectar com o servidor.");
-    } finally {
-      setLoading(false);
-    }
+    //   if (!response.ok) {
+    //     const errorData = await response.json();
+    //     setErrorMessage(errorData.error);
+    //   } else {
+    //     setSuccessMessage(
+    //       "Bar cadastrado com sucesso! Volte para a tela de início para entrar no aplicativo!",
+    //     );
+    //   }
+    // } catch (e) {
+    //   setErrorMessage("Erro ao tentar se conectar com o servidor.");
+    // } finally {
+    //   setLoading(false);
+    // }
   };
 
   return (

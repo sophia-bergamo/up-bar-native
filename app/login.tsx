@@ -1,4 +1,4 @@
-import { Link } from "expo-router";
+import { Link, useRouter } from "expo-router";
 import React, { useState } from "react";
 import {
   Text,
@@ -10,42 +10,42 @@ import {
 } from "react-native";
 
 export default function CadastroUsuário() {
-  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
 
+  const router = useRouter();
+
   const handleSave = async () => {
     setLoading(true);
     setErrorMessage(null);
     setSuccessMessage(null);
 
-    try {
-      const response = await fetch("http://192.168.15.7:3000/create-user", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email, name, password }),
-      });
+    // try {
+    //   const response = await fetch("http://192.168.15.7:3000/login", {
+    //     method: "POST",
+    //     headers: {
+    //       "Content-Type": "application/json",
+    //     },
+    //     body: JSON.stringify({ email, password }),
+    //   });
 
-      if (!response.ok) {
-        const errorData = await response.json();
-        setErrorMessage(
-          errorData.error || "Erro ao tentar se conectar com o servidor.",
-        );
-      } else {
-        setSuccessMessage(
-          "Usuário cadastrado com sucesso! Volte para a tela de início para entrar no aplicativo!",
-        );
-      }
-    } catch (e) {
-      setErrorMessage("Erro ao tentar se conectar com o servidor.");
-    } finally {
-      setLoading(false);
-    }
+    //   if (!response.ok) {
+    //     const errorData = await response.json();
+    //     setErrorMessage(
+    //       errorData.error || "Erro ao tentar se conectar com o servidor.",
+    //     );
+    //   } else {
+    //     setSuccessMessage("Login bem-sucedido!");
+    //     router.push("/home");
+    //   }
+    // } catch (e) {
+    //   setErrorMessage("Erro ao tentar se conectar com o servidor.");
+    // } finally {
+    //   setLoading(false);
+    // }
   };
 
   return (
@@ -85,8 +85,7 @@ export default function CadastroUsuário() {
 
       {/* MUDAR A ROTA AQUI PARA LOGIN */}
       <Link href={"/cadastrousuario"} style={styles.loginText}>
-        Não tem cadastro?{" "}
-        <Text style={styles.loginLink}>Cadastre-se aqui</Text>
+        Não tem cadastro? <Text style={styles.loginLink}>Cadastre-se aqui</Text>
       </Link>
 
       <Link href={"/"} style={styles.loginText}>

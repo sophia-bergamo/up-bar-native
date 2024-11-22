@@ -8,6 +8,7 @@
       ]
     }
   },
+  "newArchEnabled": true,
   "esModuleInterop": true,
   "include": [
     "**/*.ts",
