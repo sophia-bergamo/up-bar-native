@@ -2,12 +2,12 @@ import React, { useState } from "react";
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Modal } from "react-native";
 import { FontAwesome } from "@expo/vector-icons";
 
-export default function HelpScreen() {
+export default function PersonalDataScreen() {
   const [menuVisible, setMenuVisible] = useState(false);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
-  const [problemDescription, setProblemDescription] = useState("");
+  const [birthDate, setBirthDate] = useState("");
 
   return (
     <View style={styles.container}>
@@ -16,7 +16,7 @@ export default function HelpScreen() {
         <TouchableOpacity style={styles.menuIcon} onPress={() => setMenuVisible(true)}>
           <FontAwesome name="bars" size={24} color="black" />
         </TouchableOpacity>
-        <Text style={styles.title}>PRECISA DE AJUDA?</Text>
+        <Text style={styles.title}>Dados Pessoais</Text>
         <TouchableOpacity style={styles.locationIcon}>
           <FontAwesome name="map-marker" size={24} color="black" />
         </TouchableOpacity>
@@ -24,7 +24,6 @@ export default function HelpScreen() {
 
       {/* Main Content */}
       <View style={styles.content}>
-        <Text style={styles.subtitle}>Estamos à sua disposição!</Text>
         <TextInput
           style={styles.input}
           placeholder="Nome"
@@ -47,12 +46,11 @@ export default function HelpScreen() {
           placeholderTextColor="#888"
         />
         <TextInput
-          style={[styles.input, styles.problemInput]}
-          placeholder="Descrição do problema"
-          value={problemDescription}
-          onChangeText={setProblemDescription}
+          style={styles.input}
+          placeholder="Data de Nascimento"
+          value={birthDate}
+          onChangeText={setBirthDate}
           placeholderTextColor="#888"
-          multiline
         />
       </View>
 
@@ -125,12 +123,6 @@ const styles = StyleSheet.create({
     padding: 20,
     justifyContent: "center",
   },
-  subtitle: {
-    fontSize: 16,
-    textAlign: "center",
-    marginBottom: 20,
-    color: "#000",
-  },
   input: {
     backgroundColor: "#F8F8F8",
     borderWidth: 1,
@@ -145,10 +137,6 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.1,
     shadowRadius: 5,
     elevation: 3,
-  },
-  problemInput: {
-    height: 100,
-    textAlignVertical: "top",
   },
   bottomBar: {
     flexDirection: "row",

@@ -191,7 +191,7 @@ export default function CadastroBar() {
         )}
 
         {/* MUDAR A ROTA AQUI PARA LOGIN */}
-        <Link href={"/"} style={styles.loginText}>
+        <Link href={"/login"} style={styles.loginText}>
           Já tem uma conta?{" "}
           <Text style={styles.loginLink}>Faça o login aqui</Text>
         </Link>

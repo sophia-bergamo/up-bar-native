@@ -9,11 +9,12 @@ import {
   Modal,
 } from "react-native";
 import { FontAwesome } from "@expo/vector-icons";
-import { Link } from "expo-router";
+import { Link, useNavigation } from "expo-router";
 import { bars } from "./bares/bares";
 
 export default function HomeScreen() {
   const [menuVisible, setMenuVisible] = useState(false);
+  const navigation = useNavigation();
 
   const renderStars = (rating: number) => {
     const stars = [];
